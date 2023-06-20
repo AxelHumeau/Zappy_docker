@@ -103,7 +103,7 @@ RUN cd /tmp \
 
 RUN mkdir build             \
     && cd build             \
-    && cmake ../ogre-13.6.4 \
+    && cmake ../ogre-source \
     && make                 \
     && make install
 
