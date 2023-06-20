@@ -9,13 +9,14 @@ jobs:
   download_ogre:
     runs-on: ubuntu-latest
     steps:
-      - name: Download and extract
+      - name: Download
         uses: robinraju/release-downloader@v1.8
         with:
           repository: "OGRECave/ogre"
           tag: v13.6.4
           zipBall: true
-          extract: true
+      - name: Extract
+        run: unzip ogre-13.6.4.zip -d ogre-13.6.4
 
   push_to_registry:
     if: success()
