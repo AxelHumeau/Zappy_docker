@@ -7,6 +7,7 @@ on:
 
 jobs:
   download_ogre:
+    runs-on: ubuntu-latest
     steps:
       - name: Download and extract
         uses: robinraju/release-downloader@v1.8
@@ -15,6 +16,7 @@ jobs:
           tag: v13.6.4
           zipBall: true
           extract: true
+
   push_to_registry:
     if: success()
     name: Push Docker image to Docker Hub
