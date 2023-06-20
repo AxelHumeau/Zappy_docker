@@ -97,11 +97,11 @@ ENV LANG=en_US.utf8 LANGUAGE=en_US:en LC_ALL=en_US.utf8 PKG_CONFIG_PATH=/usr/loc
 
 RUN cd /tmp \
     && rm -rf /tmp/* \
-    && chmod 1777 /tmp
+    && chmod 1777 /tmp      \
+    && pwd                  \
+    && ls -a
 
 RUN mkdir build             \
-    && pwd                  \
-    && ls -a                \
     && cd build             \
     && cmake ../ogre-13.6.4 \
     && make                 \
