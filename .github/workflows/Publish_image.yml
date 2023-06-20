@@ -19,6 +19,8 @@ jobs:
         run: |
           pwd
           unzip ogre-v13.6.4.zip
+          rm ogre-v13.6.4.zip
+          find . -iname *ogre* -exec mv {} ogre-13.6.4 \;
           ls -a
       - name: Check presence of ogre
         run: |
