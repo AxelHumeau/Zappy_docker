@@ -18,7 +18,7 @@ jobs:
       - name: Extract
         run: |
           pwd
-          sudo find /home -iname ogre-13.6.4.zip -exec unzip {} -d . \;
+          sudo find /home -iname ogre-v13.6.4.zip -exec unzip {} -d . \;
           ls -a
 
   push_to_registry:
