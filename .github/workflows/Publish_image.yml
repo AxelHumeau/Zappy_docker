@@ -8,13 +8,13 @@ on:
 jobs:
   download_ogre:
     steps:
-      name: Download and extract
-      uses: robinraju/release-downloader@v1.8
-      with:
-        repository: "OGRECave/ogre"
-        tag: v13.6.4
-        zipBall: true
-        extract: true
+      - name: Download and extract
+        uses: robinraju/release-downloader@v1.8
+        with:
+          repository: "OGRECave/ogre"
+          tag: v13.6.4
+          zipBall: true
+          extract: true
   push_to_registry:
     if: success()
     name: Push Docker image to Docker Hub
