@@ -5,33 +5,39 @@ on:
     branches:
     - 'master'
 
+env:
+  OGRE-VERSION: 13.6.4
+
 jobs:
   download_ogre:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out the repo
-        uses: actions/checkout@v3
-
       - name: Download
         uses: robinraju/release-downloader@v1.8
         with:
           repository: "OGRECave/ogre"
-          tag: v13.6.4
+          tag: v${{ env.OGRE-VERSION }}
           zipBall: true
 
       - name: Extract
         run: |
           pwd
-          unzip ogre-v13.6.4.zip
-          rm ogre-v13.6.4.zip
-          find . -iname *ogre* -exec mv {} ogre-13.6.4 \; || true
+          unzip ogre-v${{ env.OGRE-VERSION }}.zip
+          rm ogre-v${{ env.OGRE-VERSION }}.zip
+          find . -iname *ogre* -exec mv {} ogre-${{ env.OGRE-VERSION }} \; || true
           ls -a
 
       - name: Check presence of ogre
         run: |
-          if [ ! -d ogre-13.6.4 ]; then
+          if [ ! -d ogre-${{ env.OGRE-VERSION }} ]; then
             exit 1
           fi
+
+      - name: Create artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: ogre-source
+          path: ogre-${{ env.OGRE-VERSION }}
 
   push_to_registry:
     if: success()
@@ -39,10 +45,13 @@ jobs:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
     steps:
-      - name: Debug files
-        run: |
-          pwd
-          ls -a
+      - name: Check out the repo
+        uses: actions/checkout@v3
+
+      - name: Get artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: ogre-source
 
       - name: Log in to Docker Hub
         uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
