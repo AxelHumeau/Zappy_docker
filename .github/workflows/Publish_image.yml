@@ -16,7 +16,10 @@ jobs:
           tag: v13.6.4
           zipBall: true
       - name: Extract
-        run: sudo find /home -iname ogre-13.6.4.zip -exec unzip {} -d . \;
+        run: |
+          sudo pwd
+          sudo ls
+          sudo find /home -iname ogre-13.6.4.zip -exec unzip {} -d . \;
 
   push_to_registry:
     if: success()
@@ -41,6 +44,9 @@ jobs:
 
       - name: Build and push Docker image
         uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        run: |
+          sudo pwd
+          sudo ls
         with:
           context: .
           file: ./Dockerfile
