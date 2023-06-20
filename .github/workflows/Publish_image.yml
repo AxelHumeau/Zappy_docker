@@ -30,7 +30,7 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v3
         with:
-          - clean: false
+          clean: false
 
       - name: Debug files
         run: |
