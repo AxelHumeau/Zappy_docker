@@ -9,49 +9,31 @@ env:
   OGRE-VERSION: 13.6.4
 
 jobs:
-  download_ogre:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download
-        uses: robinraju/release-downloader@v1.8
-        with:
-          repository: "OGRECave/ogre"
-          tag: v${{ env.OGRE-VERSION }}
-          zipBall: true
-
-      - name: Extract
-        run: |
-          pwd
-          unzip ogre-v${{ env.OGRE-VERSION }}.zip
-          rm ogre-v${{ env.OGRE-VERSION }}.zip
-          find . -iname *ogre* -exec mv {} ogre-${{ env.OGRE-VERSION }} \; || true
-          ls -a
-
-      - name: Check presence of ogre
-        run: |
-          if [ ! -d ogre-${{ env.OGRE-VERSION }} ]; then
-            exit 1
-          fi
-
-      - name: Create artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: ogre-source
-          path: ogre-${{ env.OGRE-VERSION }}
-
   push_to_registry:
-    if: success()
-    needs: [download_ogre]
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repo
         uses: actions/checkout@v3
 
-      - name: Get artifacts
-        uses: actions/download-artifact@v2
+      - name: Download ogre release
+        uses: robinraju/release-downloader@v1.8
         with:
-          name: ogre-source
+          repository: "OGRECave/ogre"
+          tag: v${{ env.OGRE-VERSION }}
+          zipBall: true
+
+      - name: Extract ogre release
+        run: |
+          unzip ogre-v${{ env.OGRE-VERSION }}.zip
+          rm ogre-v${{ env.OGRE-VERSION }}.zip
+          find . -iname *ogre* -exec mv {} ogre-${{ env.OGRE-VERSION }} \; || true
+
+      - name: Check presence of ogre
+        run: |
+          if [ ! -d ogre-${{ env.OGRE-VERSION }} ]; then
+            exit 1
+          fi
 
       - name: Log in to Docker Hub
         uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
