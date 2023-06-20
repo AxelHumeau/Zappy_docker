@@ -16,7 +16,7 @@ jobs:
           tag: v13.6.4
           zipBall: true
       - name: Extract
-        run: find / -iname ogre-13.6.4.zip -exec unzip {} -d . \;
+        run: find /home -iname ogre-13.6.4.zip -exec unzip {} -d . \;
 
   push_to_registry:
     if: success()
