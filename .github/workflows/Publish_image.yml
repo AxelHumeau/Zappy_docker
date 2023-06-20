@@ -18,8 +18,13 @@ jobs:
       - name: Extract
         run: |
           pwd
-          sudo find /home -iname ogre-v13.6.4.zip -exec unzip {} -d . \;
+          unzip ogre-v13.6.4.zip
           ls -a
+      - name: Check presence of ogre
+        run: |
+          if [ ! -d ogre-13.6.4 ]; then
+            exit 1
+          fi
 
   push_to_registry:
     if: success()
@@ -30,7 +35,7 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v3
         with:
-          clean: false
+          persist-credentials: false
 
       - name: Debug files
         run: |
