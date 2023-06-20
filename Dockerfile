@@ -100,6 +100,8 @@ RUN cd /tmp \
     && chmod 1777 /tmp
 
 RUN mkdir build             \
+    && pwd                  \
+    && ls -a                \
     && cd build             \
     && cmake ../ogre-13.6.4 \
     && make                 \
